@@ -1,4 +1,3 @@
-ESTUDO PROVA
 lista = []
 print("Digite [-1] para sair!")
 while True:
