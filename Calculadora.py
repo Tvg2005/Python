@@ -10,35 +10,33 @@ sair = False
 
 while sair == False:
     try:
-        numero1 = input("Insira o primeiro número da operação: ")
-        numero1 = int(numero1)
-        numero2 = input("Insira o segundo número da operação: ")
-        numero2 = int(numero2)
-        print("Legenda das operacões: * para multiplicação, + para somar, - para subtrair, / para dividir, ** para elevar")
-        operação = input("Insira a operação desejada")
+        numero1 = int(input("Insira o primeiro número da operação: "))
+        numero2 = int(input("Insira o segundo número da operação: "))
+        print("Legenda das operações: [*] - multiplicação, [+] - somar, [-] - subtrair, [/] - dividir, [**] - elevar")
+        operacao = input("Insira a operação desejada: ")
 
         conta = "resultado nao existente"
 
-        if operação == "+":
+        if operacao == "+":
             conta = numero1 + numero2
 
-        if operação == "-":
+        elif operacao == "-":
             conta = numero1 - numero2
 
-        if operação == "*":
+        elif operacao == "*":
             conta = numero1 * numero2
 
-        if operação == "/" and numero2 != 0:
+        elif operacao == "/" and numero2 != 0:
             conta = numero1 / numero2
 
-        if operação == "**":
+        elif operacao == "**":
             conta = numero1 ** numero2
 
 
         print("O Resultado foi: ")
         print(conta)
-        teste = input("Deseja sair? (Sim/Nao): ")
-        if teste == "Sim":
+        teste = input("Deseja sair? (Sim/Nao): ").upper
+        if teste == "SIM":
             sair = True
 
     except:
