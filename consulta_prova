@@ -49,6 +49,13 @@
   x10 - folha
   x11 - no grau 1
 
+
+Metodo busca arvore:
+Pre-Ordem: RED
+Em-Ordem: ERD
+Pos-Ordem: EDR
+
+
   Hashmap:
 public class Main {
   public static void main(String[] args) {
