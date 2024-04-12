@@ -3,11 +3,11 @@ Sistema de criptografia de acordo com a Cifra de César
 Data: 11/04/2024
 Feito por Thiago Venâncio
 
-A ser tratado:
-    - Possibilitar a inserção de frases com acentos
 """
 # Bibliotecas
 from random import randint
+from unidecode import unidecode
+
 
 
 # Linha para estética
@@ -36,7 +36,6 @@ def inicializacao():
     print("Sistema de criptografia")
     linha()
     escolha = int(input(f"1 - Inserir frase\n2 - Descriptografar frase: \n{"-" * 100}\nOpção: "))
-    
 
 
 # Faz o tratamento da frase inicial para a lógica do código
@@ -170,15 +169,14 @@ def func_descripto():
 def func_cripto():
     global frase
     linha()
-    frase = input("Insira a frase: ").lower()
+    frase = unidecode(input("Insira a frase: ").lower())
     trata_frase()
     criptografa()
     linha()
     print_inline(frase_criptografada)
     
-
-
-if __name__ == "__main__":
+    
+def main():
     dec_var() # Declara as variáveis
     while True:
         inicializacao() # Da inicio aos códigos
@@ -195,3 +193,7 @@ if __name__ == "__main__":
                 print("Acesso negado!")
         else:
             print("Escolha inválida!")
+
+
+if __name__ == "__main__":
+    main()
