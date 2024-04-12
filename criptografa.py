@@ -6,15 +6,42 @@ Feito por Thiago Venâncio
 A ser tratado:
     - Possibilitar a inserção de frases com acentos e simbolos
 """
-
+# Bibliotecas
 from random import randint
 
+
+# Linha para estética
 def linha():
     print("-" * 100)
+
+
+# Declara as variáveis
+def dec_var():
+    global frase, senha, frase_tratada, frase_criptografada, frase_descriptografada, lista_letras, lista_simb, letras
+    frase = ""
+    senha = "123"
+    frase_tratada = []
+    frase_criptografada = []
+    frase_descriptografada = []
+    lista_letras = []
+    lista_simb = "%$#@*&"
+    letras = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
+
+
+# Faz a inicialização do código
+def inicializacao():
+    global escolha
+    linha()
+    print("Sistema de criptografia")
+    linha()
+    escolha = int(input(f"1 - Inserir frase\n2 - Descriptografar frase: \n{"-" * 100}\nOpção: "))
+    
+
 
 # Faz o tratamento da frase inicial para a lógica do código
 def trata_frase():
     # Insere as letras em uma lista para facilitar a lógica do código
+
     for i in letras:
         lista_letras.append(i)
 
@@ -42,9 +69,9 @@ def criptografa():
         try:
             # Criptografa os números // Diferente para impar e par
             if var % 2 == 0:
-                frase_criptografada.append(var + 4)
+                frase_criptografada.append(var + 2)
             else:
-                frase_criptografada.append(var + 8)
+                frase_criptografada.append(var + 2)
 
         # Execção caso seja letra ou espaço
         except TypeError:
@@ -74,9 +101,9 @@ def descriptografa():
         try:
             # Descriptografa os números // diferente para par ou ímpar
             if var % 2 == 0:
-                frase_descriptografada.append(var - 4)
+                frase_descriptografada.append(var - 2)
             else:
-                frase_descriptografada.append(var - 8)
+                frase_descriptografada.append(var - 2)
         
         # Execção caso seja letra ou espaço
         except:
@@ -92,50 +119,70 @@ def descriptografa():
                 frase_descriptografada.append(lista_letras[pos - 3])
             else:
                 # Descriptografa os espaços
-                frase_descriptografada.append(" ")
+                frase_descriptografada.append("+")
+
+
+# Trata o input da descriptografia
+def input_descripto():
+    frase_cripto = input("Insira a frase criptografada: ")
+    for i in frase_cripto:
+        frase_criptografada.append(i)
+
+
+# Faz a lógica do print, printando de forma que a resposta fique formatada corretamente
+def print_inline(x):
+    if len(frase) != 0:
+        print("Frase Criptografada:")
+    else:
+        print("Frase Descriptografada:")
+    for i in x:
+        if i == "+":
+            print(" ",end="")
+        elif i != " ":
+            print(i,end="")
+    print()
+    linha()
+    
+
+# Chama as funções da descriptografia
+def func_descripto():
+    linha()
+    input_descripto()
+    if len(frase_criptografada) == 0:
+        print("Frase não foi cadastrada!")
+    else:
+        trata_frase()
+        descriptografa()
+        linha()
+        print_inline(frase_descriptografada)
+              
+                
+# Chama as funções da criptografia
+def func_cripto():
+    global frase
+    linha()
+    frase = input("Insira a frase: ").lower()
+    trata_frase()
+    criptografa()
+    linha()
+    print_inline(frase_criptografada)
+    
 
 
 if __name__ == "__main__":
-    # Declaração das variáveis utilizadas no código
-    frase = "" # ...
-    senha = "123"
-    sair = False
-    frase_tratada = []
-    frase_criptografada = []
-    frase_descriptografada = []
-    lista_letras = []
-    lista_simb = "%$#@*&"
-    letras = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
-
-    # Cria o while para o usuário inserir a frase. 
-    while not sair:
-        linha()
-        print("Sistema de criptografia")
-        linha()
-        escolha = int(input("1 - Inserir frase\n2 - Descriptografar frase: "))
-        
-        # Criptografia 
+    dec_var() # Declara as variáveis
+    while True:
+        inicializacao() # Da inicio aos códigos
         if escolha == 1:
-            frase = input("Insira a frase: ").lower()
-            trata_frase()
-            criptografa()
-            linha()
-            print("Frase criptografada: \n", *frase_criptografada)
-        
-        # Descriptografia
+            func_cripto() # Chama as funções utilizadas na criptografia
+            break
         elif escolha == 2:
-            ver_senha = input("Insira a senha para descriptografar: ")
-            if ver_senha == "123":
-                if len(frase) == 0:
-                    print("Frase não foi cadastrada!")
-                else:
-                    descriptografa()
-                    linha()
-                    print("Frase descriptografa: \n", *frase_descriptografada)
-                    break
-            # Senha inserida errada
+            linha()
+            ver_senha = input("Insira a senha para descriptografar: ") 
+            if ver_senha == "123":  # Verifica a senha para descriptografar
+                func_descripto() # Chama as funções utilizadas na descriptografia
+                break
             else:
                 print("Acesso negado!")
-        # Escolha inserida diferente de 1|2
         else:
             print("Escolha inválida!")
