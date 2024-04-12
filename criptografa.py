@@ -4,7 +4,7 @@ Data: 11/04/2024
 Feito por Thiago Venâncio
 
 A ser tratado:
-    - Possibilitar a inserção de frases com acentos e simbolos
+    - Possibilitar a inserção de frases com acentos
 """
 # Bibliotecas
 from random import randint
@@ -17,14 +17,15 @@ def linha():
 
 # Declara as variáveis
 def dec_var():
-    global frase, senha, frase_tratada, frase_criptografada, frase_descriptografada, lista_letras, lista_simb, letras
+    global frase, senha, frase_tratada, frase_criptografada, frase_descriptografada, lista_letras, lista_simb, letras, lista_simb2
     frase = ""
     senha = "123"
     frase_tratada = []
     frase_criptografada = []
     frase_descriptografada = []
     lista_letras = []
-    lista_simb = "%$#@*&"
+    lista_simb = "~^`´"
+    lista_simb2 = "!@#$%&*()°]}[{|;:>,./<-_=+'?!@#$%&*()°]}[{|;:>,./<-_=+'?"
     letras = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
 
 
@@ -75,7 +76,7 @@ def criptografa():
 
         # Execção caso seja letra ou espaço
         except TypeError:
-            if var != "$":
+            if var not in lista_simb2:
                 # Criptografa as letras
                 
                 
@@ -86,10 +87,14 @@ def criptografa():
                 # Insere na lista o valor da letra com 3 posições a frente 
                 frase_criptografada.append(lista_letras[pos + 3])
             else:
-
-                # Criptografa os espaços de maneira aleatória de acordo com os simbolos presentes na "lista_simb"
-                aux = randint(0, 5)
-                frase_criptografada.append(lista_simb[aux])
+                if var == "$":
+                    # Criptografa os espaços de maneira aleatória de acordo com os simbolos presentes na "lista_simb"
+                    aux = randint(0, 3)
+                    frase_criptografada.append(lista_simb[aux])
+                else:
+                    # Criptografa os símbolos de acordo com a lista_simb2
+                    pos = lista_simb2.index(var)
+                    frase_criptografada.append(lista_simb2[pos + 3])
 
 
 def descriptografa():
@@ -109,7 +114,7 @@ def descriptografa():
         except:
             
             # Verifica se o ponteiro não está apontando para um simbolo
-            if var not in lista_simb:
+            if var not in lista_simb2 and var not in lista_simb:
                 # Descriptografa as letras
 
                 # Busca o indice na lista com o alfabeto
@@ -118,8 +123,12 @@ def descriptografa():
                 # Insere na lista o valor da letra com 3 posições para trás // retorna ao original 
                 frase_descriptografada.append(lista_letras[pos - 3])
             else:
-                # Descriptografa os espaços
-                frase_descriptografada.append("+")
+                if var in lista_simb:
+                    # Descriptografa os espaços
+                    frase_descriptografada.append("+")
+                else:
+                    pos = lista_simb2.index(var)
+                    frase_descriptografada.append(lista_simb2[pos-3])
 
 
 # Trata o input da descriptografia
@@ -155,8 +164,8 @@ def func_descripto():
         descriptografa()
         linha()
         print_inline(frase_descriptografada)
-              
-                
+
+
 # Chama as funções da criptografia
 def func_cripto():
     global frase
