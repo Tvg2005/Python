@@ -2,7 +2,8 @@
 Sistema de criptografia de acordo com a Cifra de César
 Data: 11/04/2024
 Feito por Thiago Venâncio
-
+ 
+requirements - pip install unidecode 
 """
 # Bibliotecas
 from random import randint
