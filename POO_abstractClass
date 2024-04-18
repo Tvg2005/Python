@@ -1,0 +1,107 @@
+from abc import ABC, abstractmethod
+def linha():
+    print("-" * 75)
+
+class Funcionario(ABC):
+    salario_base = 1000
+    ct = 0
+    
+    @classmethod
+    def get_ct(cls):
+        return cls.ct
+
+    def __init__(self, nome, cpf):
+        self.nome = nome
+        self.cpf = cpf
+        Funcionario.ct += 1
+
+    def get_nome(self):
+        return self.nome
+
+    def get_cpf(self):
+        return self.cpf
+
+    @abstractmethod
+    def salario(self):
+        ...
+
+    @classmethod
+    def get_salario(self):
+        return self.salario
+
+    @classmethod
+    def set_salario(self, novo_salario):
+        self.salario = novo_salario
+    
+class Secretario(Funcionario):
+    def __init__(self, nome, cpf, area):
+        super().__init__(nome, cpf)
+        self.area = area
+    
+    def get_area(self):
+        return self.area
+    
+    def set_area(self, nova_area):
+        self.area = nova_area
+    
+    def salario(self):
+        self.salario_base += 500
+        return self.salario_base
+    
+    def aumento_salario(self, aumento):
+        self.salario_base += aumento
+        return self.salario_base
+
+    def transferencia(self, nova_area):
+        area_anterior = self.area
+        self.area = nova_area
+        area_nova = self.area
+        return f"{area_anterior} ---->> {area_nova}"
+    
+class Chefe(Funcionario):
+    vl_salario = 800
+    
+    def __init__(self, nome, cpf, num_funcionarios):
+        super().__init__(nome, cpf)
+        self.num_funcionarios = num_funcionarios
+
+    def get_num_funcionarios(self):
+        return self.num_funcionarios
+    
+    def set_num_funcionarios(self, novo_num):
+        self.num_funcionarios = novo_num
+
+    def salario(self):
+        return self.salario_base + (self.vl_salario * self.num_funcionarios)
+    
+    def aumento_num_funcionarios(self, aumento):
+        self.num_funcionarios += aumento
+        return self.num_funcionarios
+    
+    def aumento_salario_por_funcionario(self, aumento):
+        self.vl_salario += aumento
+        return self.salario_base + (self.vl_salario * self.num_funcionarios)
+
+if __name__ == '__main__':
+    c1 = Chefe("Thiago", "123.312.322-23", 5)
+    S1 = Secretario("Flávio", "182.201.291-46", "DICRE")
+    linha()
+    c1.set_num_funcionarios(8)
+    print(f"Nome: {c1.get_nome()}")
+    print(f"Cpf: {c1.get_cpf()}")
+    print(f"Número Funcionários: {c1.get_num_funcionarios()}")
+    print(f"Salário: {c1.salario()}")
+    print(f"Salário depois do aumento: {c1.aumento_salario_por_funcionario(500)}")
+    print(f"Quantidade de Funcionários após aumento: {c1.aumento_num_funcionarios(10)}")
+    print(f"Salário Final: {c1.salario()}")
+    linha()
+    S1.set_area("DIRIS")
+    S1.aumento_salario(1000)
+    print(f"Nome: {S1.get_nome()}")
+    print(f"Cpf: {S1.get_cpf()}")
+    print(f"Salário: {S1.salario()}")
+    print(f"Área: {S1.get_area()}")
+    print(f"Transferido: {S1.transferencia("UAN")}")
+    linha()
+
+    
