@@ -1,0 +1,51 @@
+import mysql.connector
+
+def create_database():
+    conexao_db = mysql.connector.connect(user='root', password='ceub123456', host='127.0.0.1')
+    print('Conexão db:', conexao_db)
+    cursor_db = conexao_db.cursor()
+    sql = "CREATE DATABASE if not exists db_loja"
+    cursor_db.execute(sql)
+    cursor_db.close()
+    conexao_db.close()
+    print('\nConexão Fechada')
+
+def create_connection():
+    con = mysql.connector.connect(user='root', password='ceub123456', host='127.0.0.1', database='db_loja')
+    print('Conexao:', con)
+    return con
+
+def close_connection(cursor, conexao):
+    cursor.close()
+    conexao.close()
+    print('Conexao Fechada')
+
+def create_table(cursor):
+    sql = """CREATE TABLE if not exists tb_veiculos(
+    placa INT NOT NULL,
+    nome VARCHAR(45) NOT NULL,
+    preco DECIMAL(10, 2),
+    PRIMARY KEY (placa)
+    ) """
+    cursor.execute(sql)
+
+def insert_table(cursor, conexao):
+    placa = int(input("Digite a placa de 4 números: "))
+    nome = input("Digite o nome do veículo: ")
+    preco = float(input("Digite o preço do veículo: "))
+    sql = """INSERT INTO tb_veiculos (placa, nome, preco)
+             VALUES (%s, %s, %s)"""
+    cursor.execute(sql, (placa, nome, preco))
+    conexao.commit()
+
+if __name__ == "__main__":
+    try:
+        create_database()
+        conexao = create_connection()
+        cursor = conexao.cursor()
+        create_table(cursor)
+        insert_table(cursor, conexao)
+    except mysql.connector.Error as err:
+        print(f"Erro: {err}")
+    finally:
+        close_connection(cursor, conexao)
